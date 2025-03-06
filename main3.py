@@ -30,7 +30,7 @@ while True:
             print("Aucun tweet trouvé.")
 
         # Vérifier toutes les 30 secondes
-        time.sleep(30)
+        time.sleep(5)
 
     except Exception as e:
         print(f"Erreur : {e}")
