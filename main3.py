@@ -52,7 +52,7 @@ while True:
         else:
             print("Aucun tweet trouvé.")
 
-        time.sleep(1)
+        time.sleep(0.3)
 
     except Exception as e:
         print(f"Erreur : {e}")
