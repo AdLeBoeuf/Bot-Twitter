@@ -15,7 +15,7 @@ dernier_tweet = None
 
 # 1. Donne 15 secondes pour la connexion initiale
 driver.get(url)
-time.sleep(15)  # Le temps de te connecter
+time.sleep(25)  # Le temps de te connecter
 
 # 2. Enregistre les cookies après la connexion (une fois connecté manuellement)
 cookies = driver.get_cookies()
