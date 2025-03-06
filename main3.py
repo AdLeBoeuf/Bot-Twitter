@@ -2,25 +2,56 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import time
+import pickle  # Pour importer/exporter les cookies
 from CompteASuivre import USERNAME
 
-# Configuration du WebDriver
+# Configuration de Selenium pour ne pas afficher de fenêtre
 options = Options()
-options.headless = True  # Exécute le navigateur en mode sans tête (sans interface graphique)
+options.headless = True  # Lancer le navigateur en mode headless (sans interface)
 driver = webdriver.Chrome(options=options)
 
 url = f"https://twitter.com/{USERNAME}"
 dernier_tweet = None
 
+# 1. Donne 15 secondes pour la connexion initiale
+driver.get(url)
+time.sleep(15)  # Le temps de te connecter
+
+# 2. Enregistre les cookies après la connexion (une fois connecté manuellement)
+# N'oublie pas de sauvegarder les cookies après ta connexion manuelle au début
+cookies = driver.get_cookies()
+with open('cookies.pkl', 'wb') as file:
+    pickle.dump(cookies, file)
+
+print("Cookies enregistrés, tu peux maintenant redémarrer le script.")
+
+# Ferme le navigateur après avoir enregistré les cookies
+driver.quit()
+
+# 3. Redémarrer le script avec un délai court et réutiliser les cookies
+driver = webdriver.Chrome(options=options)
+driver.get("https://twitter.com")
+
+# Charger les cookies à partir du fichier
+with open('cookies.pkl', 'rb') as file:
+    cookies = pickle.load(file)
+    for cookie in cookies:
+        driver.add_cookie(cookie)
+
+# Rafraîchir la page pour appliquer les cookies
+driver.refresh()
+time.sleep(3)  # Attends que la page se charge
+
+# Lancer la surveillance des tweets avec un délai de 1 seconde
 while True:
     try:
         driver.get(url)
-        time.sleep(3)  # Attendre que la page charge
+        time.sleep(1)  # 1 seconde pour récupérer les nouveaux tweets
 
-        # Trouver le dernier tweet
+        # Trouver le premier tweet sur la page
         tweets = driver.find_elements(By.CSS_SELECTOR, "div[data-testid='tweetText']")
         if tweets:
-            tweet_text = tweets[0].text.strip()  # Récupérer le texte du dernier tweet
+            tweet_text = tweets[0].text.strip()
             if tweet_text != dernier_tweet:
                 print(f"Nouveau tweet détecté : {tweet_text}")
                 dernier_tweet = tweet_text
@@ -29,8 +60,8 @@ while True:
         else:
             print("Aucun tweet trouvé.")
 
-        # Vérifier toutes les 30 secondes
-        time.sleep(5)
+        # Vérifier toutes les 1 seconde pour voir si un nouveau tweet est posté
+        time.sleep(1)
 
     except Exception as e:
         print(f"Erreur : {e}")
