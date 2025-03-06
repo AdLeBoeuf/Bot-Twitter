@@ -55,4 +55,4 @@ if __name__ == "__main__":
                 print(f"\n🆕 Nouveau tweet ({tweet['created_at']}) : {tweet['text']}")
                 last_tweet_id = tweet["id"]  # Mise à jour du dernier tweet connu
 
-            time.sleep(60)  # Vérification toutes les 60 secondes
+            time.sleep(900)  # Vérification toutes les 60 secondes
