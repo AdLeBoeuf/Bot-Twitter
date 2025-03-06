@@ -47,4 +47,4 @@ if __name__ == "__main__":
                     print(f"\n🆕 Nouveau tweet ({tweet['created_at']}) : {tweet['text']}")
                     last_seen_id = tweet["id"]  
             
-            time.sleep(15)  # Vérification toutes les 15 secondes
+            time.sleep(900)  # Vérification toutes les 15 secondes
