@@ -15,10 +15,9 @@ dernier_tweet = None
 
 # 1. Donne 15 secondes pour la connexion initiale
 driver.get(url)
-time.sleep(30)  # Le temps de te connecter
+time.sleep(15)  # Le temps de te connecter
 
 # 2. Enregistre les cookies après la connexion (une fois connecté manuellement)
-# N'oublie pas de sauvegarder les cookies après ta connexion manuelle au début
 cookies = driver.get_cookies()
 with open('cookies.pkl', 'wb') as file:
     pickle.dump(cookies, file)
@@ -40,21 +39,23 @@ with open('cookies.pkl', 'rb') as file:
 
 # Rafraîchir la page pour appliquer les cookies
 driver.refresh()
-time.sleep(3)  # Attends que la page se charge
+time.sleep(3)  # Attends que la page se charge complètement
 
 # Lancer la surveillance des tweets avec un délai de 1 seconde
 while True:
     try:
-        driver.get(url)
-        time.sleep(1)  # 1 seconde pour récupérer les nouveaux tweets
+        driver.get(url)  # Récupère la page de l'utilisateur
+        time.sleep(3)  # Attends que la page se charge
 
-        # Trouver le premier tweet sur la page
+        # Trouver les tweets
         tweets = driver.find_elements(By.CSS_SELECTOR, "div[data-testid='tweetText']")
+        
+        # Si des tweets sont trouvés
         if tweets:
-            tweet_text = tweets[0].text.strip()
-            if tweet_text != dernier_tweet:
+            tweet_text = tweets[0].text.strip()  # Récupérer et nettoyer le texte du tweet
+            if tweet_text != dernier_tweet:  # Vérifier si c'est un nouveau tweet
                 print(f"Nouveau tweet détecté : {tweet_text}")
-                dernier_tweet = tweet_text
+                dernier_tweet = tweet_text  # Mettre à jour le dernier tweet
             else:
                 print("Aucun nouveau tweet.")
         else:
