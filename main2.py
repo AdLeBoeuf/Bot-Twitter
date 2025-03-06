@@ -1,25 +1,31 @@
-import tweepy
-import TokenAPI  # Fichier contenant BEARER_TOKEN
-import CompteASuivre  # Fichier contenant le compte à suivre
+import requests
+from bs4 import BeautifulSoup
+import time
+from CompteASuivre import USERNAME
 
-# 1. Authentification avec Tweepy pour récupérer des informations sur l'utilisateur
-client = tweepy.Client(bearer_token=TokenAPI.BEARER_TOKEN)
+# Remplace "username" par le compte X à tracker
 
-# 2. Récupérer l'ID utilisateur avec le username
-user = client.get_user(username=CompteASuivre.USERNAME)
-user_id = user.data.id
+url = f"https://twitter.com/{USERNAME}"
+dernier_tweet = None
 
-# 3. Créer un flux en temps réel pour écouter les tweets
-class MyStream(tweepy.StreamingClient):
-    def on_tweet(self, tweet):
-        # Cette méthode sera appelée chaque fois qu'un tweet du compte suivi est posté
-        print(f"🆕 Nouveau tweet de @{tweet.author_id}: {tweet.text}")
+while True:
+    try:
+        # Récupérer la page X
+        headers = {"User-Agent": "Mozilla/5.0"}  # Simule un navigateur
+        response = requests.get(url, headers=headers)
+        soup = BeautifulSoup(response.text, "html.parser")
 
-# 4. Démarrer le stream pour surveiller les tweets du compte spécifié
-stream_client = MyStream(bearer_token=TokenAPI.BEARER_TOKEN)
+        # Trouver le dernier tweet (balise approximative, peut nécessiter ajustement)
+        tweet = soup.find("div", {"data-testid": "tweetText"})
+        if tweet and tweet.text != dernier_tweet:
+            print(f"Nouveau tweet détecté : {tweet.text}")
+            dernier_tweet = tweet.text
+        else:
+            print("Aucun nouveau tweet.")
 
-# 5. Ajouter une règle pour surveiller les tweets du compte
-stream_client.add_rules(tweepy.StreamRule(f"from:{user_id}"))
+        # Vérifier toutes les 5 secondes (ajustable)
+        time.sleep(5)
 
-# 6. Démarrer l'écoute du flux en temps réel
-stream_client.filter()
+    except Exception as e:
+        print(f"Erreur : {e}")
+        time.sleep(60)  # Pause plus longue en cas d’erreur
