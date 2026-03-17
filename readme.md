@@ -1,44 +1,44 @@
-# Projet de Récupération de Tweets en Temps Réel
+# Real-Time Tweet Retrieval Project
 
-Ce projet a pour objectif de récupérer les textes des tweets d'un ou plusieurs comptes Twitter spécifiques dès leur publication, en utilisant l'API X. Le script est conçu pour s'exécuter en continu sans nécessiter de redémarrage manuel, et il gère les limitations de l'API.
+This project aims to retrieve the text of tweets from one or more specific Twitter accounts as soon as they are published, using the X API. The script is designed to run continuously without manual restarts and handles API rate limits.
 
-## Fonctionnalités
+## Features
 
-- **Extraction du texte des tweets** : Récupère le texte d'un tweet dès qu'il est posté.
-- **Gestion du cooldown de l'API** : Le script attend automatiquement le temps nécessaire lorsque la limite de requêtes de l'API est atteinte.
-- **Récupération en temps réel** : Utilisation du streaming de l'API X pour capter les nouveaux tweets dès leur publication.
-- **Stockage des données** : Permet de stocker les tweets extraits dans un fichier (ou base de données selon les besoins).
+- **Tweet Text Extraction**: Retrieves the text of a tweet as soon as it is posted.
+- **API Cooldown Management**: The script automatically waits for the necessary time when the API request limit is reached.
+- **Real-Time Retrieval**: Uses the X Streaming API to capture new tweets as soon as they are published.
+- **Data Storage**: Allows storing extracted tweets in a file (or database as needed).
 
-## Prérequis
+## Prerequisites
 
 - Python 3.x
-- Bibliothèque `tweepy` pour interagir avec l'API X
-- Clés API de l'API X pour l'authentification
+- `tweepy` library to interact with the X API
+- X API keys for authentication
 
-## Étapes du Projet
+## Project Steps
 
-### Étape 1 : Extraction du texte d'un tweet
-- **Objectif** : Récupérer le texte d'un tweet lorsqu'il est posté.
-- **Méthode** : Utiliser l'API X pour accéder aux tweets d'un compte spécifique.
+### Step 1: Extract Tweet Text
+- **Objective**: Retrieve the text of a tweet when it is posted.
+- **Method**: Use the X API to access tweets from a specific account.
 
-### Étape 2 : Gérer le cooldown de l'API
-- **Objectif** : Gérer la limite de requêtes imposée par l'API X afin d'éviter de devoir relancer manuellement le script lorsque cette limite est atteinte.
-- **Méthode** : Implémenter une logique qui attend automatiquement la fin du cooldown avant de reprendre l'extraction.
+### Step 2: Manage API Cooldown
+- **Objective**: Manage the request limit imposed by the X API to avoid having to manually restart the script when this limit is reached.
+- **Method**: Implement logic that automatically waits for the cooldown to end before resuming extraction.
 
-### Étape 3 : Récupérer des tweets en temps réel (Streaming)
-- **Objectif** : Utiliser le streaming de l'API X pour écouter les tweets en temps réel et récupérer ceux publiés sans redémarrer le script manuellement.
-- **Méthode** : Configurer l'écoute des tweets en temps réel via l'API de streaming de X.
+### Step 3: Retrieve Tweets in Real-Time (Streaming)
+- **Objective**: Use the X Streaming API to listen for real-time tweets and retrieve those published without manually restarting the script.
+- **Method**: Configure real-time tweet listening via the X Streaming API.
 
-### Étape 4 : Gérer les erreurs et exceptions
-- **Objectif** : Assurer que le script ne plante pas en cas d'erreurs (p. ex. connexion perdue, erreur API).
-- **Méthode** : Implémenter une gestion d'erreurs qui redémarre le processus en cas de problème.
+### Step 4: Handle Errors and Exceptions
+- **Objective**: Ensure the script does not crash in case of errors (e.g., lost connection, API error).
+- **Method**: Implement error handling that restarts the process in case of issues.
 
-### Étape 5 : Stocker les tweets récupérés
-- **Objectif** : Enregistrer les tweets récupérés pour pouvoir les analyser ou les utiliser plus tard.
-- **Méthode** : Sauvegarder les tweets extraits dans un fichier ou une base de données.
+### Step 5: Store Retrieved Tweets
+- **Objective**: Save retrieved tweets for later analysis or use.
+- **Method**: Save extracted tweets to a file or database.
 
-### Étape 6 : Traitement des données
-- **Objectif** : Ajouter un traitement des tweets récupérés pour extraire des informations supplémentaires (p. ex. analyse de sentiment, extraction de hashtags).
-- **Méthode** : Traiter les tweets extraits selon les besoins du projet.
+### Step 6: Data Processing
+- **Objective**: Add processing for retrieved tweets to extract additional information (e.g., sentiment analysis, hashtag extraction).
+- **Method**: Process extracted tweets according to project needs.
 
 
